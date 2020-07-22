@@ -27,7 +27,7 @@ This Module allows moderators to enforce preset rules.
 
 
     @commands.command()
-    @commands.has_any_role(733571861841051709, 733713902281687040, 733719737435160586)
+    @commands.has_any_role(734607758917370029)
     async def kick(self, ctx, member: discord.Member, *, reason=None):
         """Kicks a guild member from the server."""
 
@@ -59,7 +59,7 @@ This Module allows moderators to enforce preset rules.
         await channel.send(embed=embed)
 
     @commands.command()
-    @commands.has_any_role(733571861841051709, 733713902281687040, 733719737435160586)
+    @commands.has_any_role(734607758917370029)
     async def ban(self, ctx, member: discord.Member, *, reason=None):
         """Bans a guild member from the server."""
 
@@ -91,7 +91,7 @@ This Module allows moderators to enforce preset rules.
         await channel.send(embed=embed)
 
     @commands.command()
-    @commands.has_any_role(733571861841051709, 733713902281687040, 733719737435160586)
+    @commands.has_any_role(734607758917370029)
     async def unban(self, ctx, member: int, *, reason=None):
         """Unbans a guild member from the server."""
 
@@ -126,7 +126,7 @@ This Module allows moderators to enforce preset rules.
 
 
     @commands.command()
-    @commands.has_any_role(733571861841051709, 733713902281687040, 733719737435160586)
+    @commands.has_any_role(734607758917370029)
     async def warn(self, ctx, member: discord.Member, *, reason):
         """Warns a guild member for the given reason."""
         await self.bot.pg_con.execute(f"INSERT INTO warnings_vain (mod_id, actioned_id, reason) VALUES ($1, $2, '{reason}')", ctx.author.id, member.id)
@@ -146,7 +146,7 @@ This Module allows moderators to enforce preset rules.
         await channel.send(embed=embed)
 
     @commands.command()
-    @commands.has_any_role(733571861841051709, 733713902281687040, 733719737435160586)
+    @commands.has_any_role(734607758917370029)
     async def warnings(self, ctx, member: discord.Member):
         """Shows all warnings for a guild member."""
         actions = await self.bot.pg_con.fetch("SELECT * FROM warnings_vain WHERE actioned_id = $1", member.id)
@@ -163,7 +163,7 @@ This Module allows moderators to enforce preset rules.
         await ctx.send(embed=embed)
 
     @commands.command()
-    @commands.has_any_role(733571861841051709, 733713902281687040, 733719737435160586)
+    @commands.has_any_role(734607758917370029)
     async def purge(self, ctx, num: int):
         """Purges X ammount of messages."""
 
@@ -181,7 +181,7 @@ This Module allows moderators to enforce preset rules.
         await channel.send(embed=embed)
 
     @commands.command()
-    @commands.has_any_role(733571861841051709, 733713902281687040, 733719737435160586)
+    @commands.has_any_role(734607758917370029)
     async def mute(self, ctx, member: discord.Member):
         """Mutes a guild member."""
 
@@ -208,7 +208,7 @@ This Module allows moderators to enforce preset rules.
         await channel.send(embed=embed)
 
     @commands.command()
-    @commands.has_any_role(733571861841051709, 733713902281687040, 733719737435160586)
+    @commands.has_any_role(734607758917370029)
     async def unmute(self, ctx, member: discord.Member):
         """Unmutes a guild member."""
 
