@@ -30,4 +30,4 @@ for filename in os.listdir('./cogs'):
 bot.load_extension('jishaku')
 
 bot.loop.run_until_complete(create_db_pool())
-bot.run('NzMzNzM3NTcxNDM1MTUxNDQ1.XxLh3Q.TqExX9UcA2Ui_95ojoSPBd_QhaY')
+bot.run('NNzM1MTM4NjYyNjc2OTU1MjQ3.Xxh46g.26Vh6j1R8kJb8ecMbGoGl8qIXdA')
