@@ -129,7 +129,7 @@ This Module allows moderators to enforce preset rules.
     @commands.has_any_role(734607758917370029)
     async def warn(self, ctx, member: discord.Member, *, reason):
         """Warns a guild member for the given reason."""
-        await self.bot.pg_con.execute(f"INSERT INTO warnings_vain (mod_id, actioned_id, reason) VALUES ($1, $2, '{reason}')", ctx.author.id, member.id)
+        await self.bot.pg_con.execute(f"INSERT INTO vainz_warnings (mod_id, actioned_id, reason) VALUES ($1, $2, '{reason}')", ctx.author.id, member.id)
 
         embed=discord.Embed(description=f"<:check:711530148196909126> Warned `{member.name}` for `{reason}`", color=self.color)
         await ctx.send(embed=embed, delete_after=10)
@@ -149,7 +149,7 @@ This Module allows moderators to enforce preset rules.
     @commands.has_any_role(734607758917370029)
     async def warnings(self, ctx, member: discord.Member):
         """Shows all warnings for a guild member."""
-        actions = await self.bot.pg_con.fetch("SELECT * FROM warnings_vain WHERE actioned_id = $1", member.id)
+        actions = await self.bot.pg_con.fetch("SELECT * FROM vainz_warnings WHERE actioned_id = $1", member.id)
 
         embed=discord.Embed(color=self.color)
         warnings=f"**`{len(actions)}`** Warnings found for {member};\n\n" if len(actions) != 0 else f"**`{len(actions)}`** Warnings where found for {member}\n\n"

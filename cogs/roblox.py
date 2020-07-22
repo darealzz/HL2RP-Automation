@@ -27,7 +27,7 @@ This Module allows you to execute roblox related tasks.
         self.client = robloxapi.Client(cookie=None)
 
     async def is_verified_check(ctx):
-        user = await ctx.cog.bot.pg_con.fetch("SELECT * FROM roblox_vain WHERE discord_id = $1", ctx.author.id)
+        user = await ctx.cog.bot.pg_con.fetch("SELECT * FROM vainz_roblox WHERE discord_id = $1", ctx.author.id)
         if not user:
             embed=discord.Embed(title="You're not verified yet.", description=f'<:warningerrors:713782413381075536> Please use `{ctx.prefix}verify` to verify.', color=0x36393E)
             embed.set_footer(icon_url=ctx.author.avatar_url_as(format="png"), text=Helping().get_footer(ctx))
@@ -35,7 +35,7 @@ This Module allows you to execute roblox related tasks.
             raise discord.ext.commands.CommandNotFound
         else:
             return True
-         
+
 
     # @commands.check(is_verified)
     # @commands.is_owner()
@@ -45,7 +45,7 @@ This Module allows you to execute roblox related tasks.
         def check(m):
             return m.author == ctx.author
 
-        user = await self.bot.pg_con.fetch("SELECT * FROM roblox_vain WHERE discord_id = $1", ctx.author.id)
+        user = await self.bot.pg_con.fetch("SELECT * FROM vainz_roblox WHERE discord_id = $1", ctx.author.id)
         if user:
             embed=discord.Embed(title="You are already verified.", description=f'<:warningerrors:713782413381075536> Please use `{ctx.prefix}getroles` to get your roles.', color=0x36393E)
             embed.set_footer(icon_url=ctx.author.avatar_url_as(format="png"), text=Helping().get_footer(ctx))
@@ -140,37 +140,37 @@ This Module allows you to execute roblox related tasks.
             pass
         else:
             await wait_for_done.clear_reactions()
-            
+
             embed=discord.Embed(title="We could not find the code on your profile.", description=f'<:warningerrors:713782413381075536> Please use `{ctx.prefix}{ctx.command}` to restart the prompt and try again.', color=0x36393E)
             embed.set_footer(icon_url=ctx.author.avatar_url_as(format="png"), text=Helping().get_footer(ctx))
             await ctx.send(embed=embed)
             return
 
-        group = await self.client.get_group(6166487)
+        group = await self.client.get_group(7115216)
         # user_obj = await self.client.get_user_by_id(userID)
         try:
             rank = await group.get_role_in_group(userID)
         except robloxapi.utils.errors.NotFound:
             await wait_for_done.clear_reactions()
-            
-            user = await self.bot.pg_con.execute("INSERT INTO roblox_vain (discord_id, roblox_id) VALUES ($1, $2)", ctx.author.id, userID)
-            embed=discord.Embed(title="You are not in the official group.", description=f"<:warningerrors:713782413381075536> Once you join the group you can use `{ctx.prefix}getroles` to get your roles.\nhttps://www.roblox.com/groups/6166487/CMB-THE-UNIVERSAL-UNION#!/about", color=0x36393E)
+
+            user = await self.bot.pg_con.execute("INSERT INTO vainz_roblox (discord_id, roblox_id) VALUES ($1, $2)", ctx.author.id, userID)
+            embed=discord.Embed(title="You are not in the official group.", description=f"<:warningerrors:713782413381075536> Once you join the group you can use `{ctx.prefix}getroles` to get your roles.\nhttps://www.roblox.com/groups/7115216/HL2RP#!/about", color=0x36393E)
             embed.set_footer(icon_url=ctx.author.avatar_url_as(format="png"), text=Helping().get_footer(ctx))
             await ctx.send(embed=embed)
-            return 
+            return
 
-        user = await self.bot.pg_con.execute("INSERT INTO roblox_vain (discord_id, roblox_id) VALUES ($1, $2)", ctx.author.id, userID)
+        user = await self.bot.pg_con.execute("INSERT INTO vainz_roblox (discord_id, roblox_id) VALUES ($1, $2)", ctx.author.id, userID)
 
         role = discord.utils.get(ctx.guild.roles, name=rank.name)
         if not role:
             await wait_for_done.clear_reactions()
-            
+
             embed=discord.Embed(title="No such role exists on this discord server.", description=f'<:warningerrors:713782413381075536> Please contact a server administrator and request that a role be created called `{rank.name}`.', color=0x36393E)
             embed.set_footer(icon_url=ctx.author.avatar_url_as(format="png"), text=Helping().get_footer(ctx))
             await ctx.send(embed=embed)
-            return  
+            return
         await wait_for_done.clear_reactions()
-        
+
         verified = ctx.guild.get_role(733743233154416641)
 
         try:
@@ -180,7 +180,7 @@ This Module allows you to execute roblox related tasks.
             embed=discord.Embed(title="I lack the permissions to change your roles.", description=f'<:warningerrors:713782413381075536> Please contact a server administrator and request that you get the `{rank.name}` role & your nickname be changed to `{roblox_name.content}`, verification was completed.', color=0x36393E)
             embed.set_footer(icon_url=ctx.author.avatar_url_as(format="png"), text=Helping().get_footer(ctx))
             await ctx.send(embed=embed)
-            return  
+            return
         embed=discord.Embed(title="Verification has been completed successfully.", description=f'<:check:711530148196909126> Please use `{ctx.prefix}help` to get a full list of commands.', color=0x36393E)
         embed.set_footer(icon_url=ctx.author.avatar_url_as(format="png"), text=Helping().get_footer(ctx))
         await ctx.send(embed=embed)
@@ -205,12 +205,12 @@ This Module allows you to execute roblox related tasks.
         """Updates users discord roleset to group rank."""
         wait_for_done = ctx.message
         await wait_for_done.add_reaction('<a:loading:716280480579715103>')
-        user = await self.bot.pg_con.fetchrow("SELECT roblox_id FROM roblox_vain WHERE discord_id = $1", ctx.author.id)
+        user = await self.bot.pg_con.fetchrow("SELECT roblox_id FROM vainz_roblox WHERE discord_id = $1", ctx.author.id)
 
         user_obj = await self.client.get_user_by_id(user['roblox_id'])
-        group = await self.client.get_group(6166487)
+        group = await self.client.get_group(7115216)
         verified = ctx.guild.get_role(733743233154416641)
-        
+
 
         try:
             rank = await group.get_role_in_group(user['roblox_id'])
@@ -228,7 +228,7 @@ This Module allows you to execute roblox related tasks.
                 except:
                     pass
 
-            classD = ctx.guild.get_role(733713907570573332)
+            classD = ctx.guild.get_role(735524451378266174)
             await wait_for_done.clear_reactions()
             try:
                 await ctx.author.add_roles(classD, verified)
@@ -238,12 +238,12 @@ This Module allows you to execute roblox related tasks.
                 embed=discord.Embed(title="I lack the permissions to change your roles.", description=f'<:warningerrors:713782413381075536> Please contact a server administrator and request that you get the `{rank.name}` role & your nickname be changed to `{user_obj.name}`.', color=0x36393E)
                 embed.set_footer(icon_url=ctx.author.avatar_url_as(format="png"), text=Helping().get_footer(ctx))
                 await ctx.send(embed=embed)
-                return  
+                return
 
-            embed=discord.Embed(title="Oh no! You've left the official group.", description=f"<:warningerrors:713782413381075536> Once you rejoin the group you can use `{ctx.prefix}getroles` to get your roles.\nhlox.com/gttps://www.robroups/6166487/CMB-THE-UNIVERSAL-UNION#!/about\nFor now, I have given you the `{classD.name}` role.", color=0x36393E)
+            embed=discord.Embed(title="Oh no! You've left the official group.", description=f"<:warningerrors:713782413381075536> Once you rejoin the group you can use `{ctx.prefix}getroles` to get your roles.\nhlox.com/gttps://www.robroups/7115216/CMB-THE-UNIVERSAL-UNION#!/about\nFor now, I have given you the `{classD.name}` role.", color=0x36393E)
             embed.set_footer(icon_url=ctx.author.avatar_url_as(format="png"), text=Helping().get_footer(ctx))
             await ctx.send(embed=embed)
-            return 
+            return
 
         d_role = discord.utils.get(ctx.guild.roles, name=rank.name)
         if not d_role and rank.name == 'Development Team':
@@ -255,14 +255,14 @@ This Module allows you to execute roblox related tasks.
                 embed=discord.Embed(title="I lack the permissions to change your roles.", description=f'<:warningerrors:713782413381075536> Please contact a server administrator and request that you get the `{rank.name}` role & your nickname be changed to `{user_obj.name}`.', color=0x36393E)
                 embed.set_footer(icon_url=ctx.author.avatar_url_as(format="png"), text=Helping().get_footer(ctx))
                 await ctx.send(embed=embed)
-                return  
+                return
         if not d_role:
             # await wait_for_done.clear_reactions()
             await wait_for_done.clear_reactions()
             embed=discord.Embed(title="No such role exists on this discord server.", description=f'<:warningerrors:713782413381075536> Please contact a server administrator and request that a role be created called `{rank.name}`.', color=0x36393E)
             embed.set_footer(icon_url=ctx.author.avatar_url_as(format="png"), text=Helping().get_footer(ctx))
             await ctx.send(embed=embed)
-            return 
+            return
 
         rolelst = []
         for role in ctx.author.roles:
@@ -285,7 +285,7 @@ This Module allows you to execute roblox related tasks.
             embed=discord.Embed(title="No new group roles to add.", description=f'<:check:711530148196909126> Use `{ctx.prefix}help` to get a full list of roles.', color=0x36393E)
             embed.set_footer(icon_url=ctx.author.avatar_url_as(format="png"), text=Helping().get_footer(ctx))
             await ctx.send(embed=embed)
-            return 
+            return
 
         rolelst = []
         for role in ctx.author.roles:
@@ -307,7 +307,7 @@ This Module allows you to execute roblox related tasks.
             embed=discord.Embed(title="I lack the permissions to change your roles.", description=f'<:warningerrors:713782413381075536> Please contact a server administrator and request that you get the `{rank.name}` role & your nickname be changed to `{user_obj.name}`.', color=0x36393E)
             embed.set_footer(icon_url=ctx.author.avatar_url_as(format="png"), text=Helping().get_footer(ctx))
             await ctx.send(embed=embed)
-            return  
+            return
         await wait_for_done.clear_reactions()
         embed=discord.Embed(title="Roles applied successfully.", description=f"<:check:711530148196909126> I've added `{d_role.name}` to your roleset.", color=0x36393E)
         embed.set_footer(icon_url=ctx.author.avatar_url_as(format="png"), text=Helping().get_footer(ctx))
