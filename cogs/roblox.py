@@ -171,7 +171,7 @@ This Module allows you to execute roblox related tasks.
             return
         await wait_for_done.clear_reactions()
 
-        verified = ctx.guild.get_role(733743233154416641)
+        verified = ctx.guild.get_role(735524451378266174)
 
         try:
             await ctx.author.add_roles(role, verified)
